@@ -9,10 +9,8 @@
 /* Begin PBXBuildFile section */
 		E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */; };
 		E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */; };
-		E59A46322C0A0FBE00FD7F4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46312C0A0FBE00FD7F4E /* ViewController.swift */; };
-		E59A46352C0A0FBE00FD7F4E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = E59A46342C0A0FBE00FD7F4E /* Base */; };
+		E59A46322C0A0FBE00FD7F4E /* SearchNasaCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46312C0A0FBE00FD7F4E /* SearchNasaCollectionViewController.swift */; };
 		E59A46372C0A0FBF00FD7F4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59A46362C0A0FBF00FD7F4E /* Assets.xcassets */; };
-		E59A463A2C0A0FBF00FD7F4E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = E59A46392C0A0FBF00FD7F4E /* Base */; };
 		E59A46452C0A0FC000FD7F4E /* NasaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46442C0A0FC000FD7F4E /* NasaTests.swift */; };
 		E59A464F2C0A0FC000FD7F4E /* NasaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A464E2C0A0FC000FD7F4E /* NasaUITests.swift */; };
 		E59A46512C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46502C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift */; };
@@ -39,10 +37,8 @@
 		E59A462A2C0A0FBE00FD7F4E /* Nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nasa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E59A46312C0A0FBE00FD7F4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E59A46342C0A0FBE00FD7F4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E59A46312C0A0FBE00FD7F4E /* SearchNasaCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNasaCollectionViewController.swift; sourceTree = "<group>"; };
 		E59A46362C0A0FBF00FD7F4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E59A46392C0A0FBF00FD7F4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E59A463B2C0A0FBF00FD7F4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E59A46402C0A0FC000FD7F4E /* NasaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NasaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59A46442C0A0FC000FD7F4E /* NasaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaTests.swift; sourceTree = "<group>"; };
@@ -101,10 +97,8 @@
 			children = (
 				E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */,
 				E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */,
-				E59A46312C0A0FBE00FD7F4E /* ViewController.swift */,
-				E59A46332C0A0FBE00FD7F4E /* Main.storyboard */,
+				E59A46312C0A0FBE00FD7F4E /* SearchNasaCollectionViewController.swift */,
 				E59A46362C0A0FBF00FD7F4E /* Assets.xcassets */,
-				E59A46382C0A0FBF00FD7F4E /* LaunchScreen.storyboard */,
 				E59A463B2C0A0FBF00FD7F4E /* Info.plist */,
 			);
 			path = Nasa;
@@ -232,8 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59A46372C0A0FBF00FD7F4E /* Assets.xcassets in Resources */,
-				E59A463A2C0A0FBF00FD7F4E /* Base in Resources */,
-				E59A46352C0A0FBE00FD7F4E /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E59A46322C0A0FBE00FD7F4E /* ViewController.swift in Sources */,
+				E59A46322C0A0FBE00FD7F4E /* SearchNasaCollectionViewController.swift in Sources */,
 				E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */,
 				E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */,
 			);
@@ -295,25 +287,6 @@
 			targetProxy = E59A464B2C0A0FC000FD7F4E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E59A46332C0A0FBE00FD7F4E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E59A46342C0A0FBE00FD7F4E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E59A46382C0A0FBF00FD7F4E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E59A46392C0A0FBF00FD7F4E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E59A46522C0A0FC000FD7F4E /* Debug */ = {
@@ -447,7 +420,6 @@
 				INFOPLIST_FILE = Nasa/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -475,7 +447,6 @@
 				INFOPLIST_FILE = Nasa/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
