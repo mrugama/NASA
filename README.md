@@ -1,7 +1,7 @@
 # NASA
 
 ## Search page
-![simulator_screenshot_81F720A3-9B3B-44B6-9665-16186F260701](https://github.com/mrugama/NASA/assets/28710418/b29c7f6f-daf7-45d5-98ca-682475d095f4)
+![SearchPage](https://github.com/mrugama/NASA/assets/28710418/46eb2388-8f91-4fca-9692-9d635c665317)
 
 ## Detail page
-Coming soon!
+![DetailPage](https://github.com/mrugama/NASA/assets/28710418/4315e6d1-a316-4a38-83e9-36e180fdf38c)
