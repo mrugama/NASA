@@ -24,13 +24,7 @@ class NasaViewModelImpl: NasaViewModel {
         self.dataLoader = dataLoader
     }
     
-    var nasaItems: [Nasa] = [Nasa]() {
-        didSet {
-            nasaItems.forEach { nasa in
-                print(nasa.href ?? "Empty url for \(nasa)")
-            }
-        }
-    }
+    var nasaItems: [Nasa] = [Nasa]()
     
     @MainActor 
     func search(for text: String) async {

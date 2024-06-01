@@ -18,6 +18,7 @@
 		E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46642C0A703300FD7F4E /* DataLoader.swift */; };
 		E59A46682C0A713A00FD7F4E /* NasaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */; };
 		E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46692C0A964900FD7F4E /* EndpointManager.swift */; };
+		E59A466C2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		E59A46642C0A703300FD7F4E /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaViewModel.swift; sourceTree = "<group>"; };
 		E59A46692C0A964900FD7F4E /* EndpointManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointManager.swift; sourceTree = "<group>"; };
+		E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				E59A46312C0A0FBE00FD7F4E /* SearchCollectionViewController.swift */,
+				E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */,
 				E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */,
 			);
 			path = Controller;
@@ -295,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */,
+				E59A466C2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift in Sources */,
 				E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */,
 				E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */,
 				E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */,

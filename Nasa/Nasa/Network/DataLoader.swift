@@ -39,7 +39,6 @@ struct DataLoaderImpl: DataLoader {
     }
     
     func load(urlStr: String) async throws -> Data {
-        print("image url: \(urlStr)")
         guard let url = URL(string: urlStr) else { throw AppError.invalidURL }
         
         

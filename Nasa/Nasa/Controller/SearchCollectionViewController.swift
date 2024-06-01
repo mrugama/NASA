@@ -25,14 +25,14 @@ class SearchCollectionViewController: UICollectionViewController {
     init(viewModel: NasaViewModel) {
         self.viewModel = viewModel
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalWidth(1.0))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / 3),
+                                                  heightDimension: .fractionalWidth(1.0 / 3))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .fractionalWidth(1.0 / 3.0))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
@@ -57,26 +57,23 @@ class SearchCollectionViewController: UICollectionViewController {
     
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
+        collectionView.register(NasaCollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Nasa> { cell, indexPath, nasa in
-            var contentConfiguration = UIListContentConfiguration.cell()
+        let cellRegistration = UICollectionView.CellRegistration<NasaCollectionViewCell, Nasa> { cell, indexPath, nasa in
             if let nasaId = nasa.nasa_id {
                 Task {
                     do {
                         let imageData = try await self.viewModel.getImageData(with: nasaId)
-                        guard let image = UIImage(data: imageData) else { return }
-                        contentConfiguration.image = image
-                        cell.contentConfiguration = contentConfiguration
+                        let image = UIImage(data: imageData)
+                        cell.configure(with: image)
                     } catch {
-                        fatalError("Couldn't resolve image url: \(error.localizedDescription)")
+                        print("Couldn't resolve image url: \(error.localizedDescription)")
+                        cell.configure(with: nil)
                     }
                 }
-                
             }
-            cell.contentConfiguration = contentConfiguration
         }
         
         nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier in
@@ -92,7 +89,6 @@ class SearchCollectionViewController: UICollectionViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.itemIds(), toSection: .main)
-        print("Snapshot items: \(snapshot.itemIdentifiers)")
         nasaDataSource.apply(snapshot, animatingDifferences: true)
     }
     
