@@ -12,18 +12,22 @@ struct Response: Decodable {
 }
 
 struct ResponseDetail: Decodable {
+    let version: String
+    let href: String
     let items: [Nasa]
 }
 
-struct Nasa: Identifiable, Decodable {
-    var id = UUID().uuidString
+struct Nasa: Decodable {
+    let href: String
     let data: [NasaInfo]
-    let links: [NasaLink]
+    let links: [NasaLink]?
 }
 
 struct NasaInfo: Decodable {
+    let center: String
     let title: String
-    let description: String
+    let nasa_id: String
+    let description: String?
 }
 
 struct NasaLink: Decodable {

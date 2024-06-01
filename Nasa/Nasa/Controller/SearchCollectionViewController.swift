@@ -14,10 +14,11 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     private var nasaDataSource: UICollectionViewDiffableDataSource<Section, Nasa.ID>!
-    private var viewModel: NasaViewModel = NasaViewModelImpl()
+    private var viewModel: NasaViewModel
     private lazy var searchBar: UISearchBar = UISearchBar(frame: .init(x: 0, y: 0, width: 200, height: 20))
     
-    init() {
+    init(viewModel: NasaViewModel) {
+        self.viewModel = viewModel
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                                   heightDimension: .fractionalWidth(0.5))
@@ -94,9 +95,15 @@ class SearchCollectionViewController: UICollectionViewController {
 }
 
 extension SearchCollectionViewController: UISearchBarDelegate {
-    // UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        print("Search button clicked with text: \(searchText)")
+        viewModel.search(for: searchText)
+        //print("Search button clicked with text: \(searchText)")
+    }
+}
+
+extension Nasa: Identifiable {
+    var id: String {
+        UUID().uuidString
     }
 }

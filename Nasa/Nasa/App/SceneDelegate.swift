@@ -16,7 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let searchNasaViewController = SearchCollectionViewController()
+        let searchNasaViewController = SearchCollectionViewController(
+            viewModel: configureViewModel()
+        )
         let navigation = UINavigationController(rootViewController: searchNasaViewController)
         window.rootViewController = navigation
         self.window = window
@@ -50,7 +52,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
+}
 
-
+fileprivate extension SceneDelegate {
+    func configureViewModel() -> NasaViewModel {
+        let dataLoader: DataLoader = DataLoaderImpl()
+        let vm = NasaViewModelImpl(dataLoader: dataLoader)
+        return vm
+    }
 }
 

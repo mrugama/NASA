@@ -16,16 +16,14 @@ public enum AppError: Error {
 
 protocol DataLoader {
     /// Loads data from url and returns a type that must conform to Decodable
-    func load<T: Decodable>(urlStr: String) async throws -> T
+    func load<T: Decodable>(request: URLRequest) async throws -> T
     /// Loads data from url and returns Data type
     func load(urlStr: String) async throws -> Data
 }
 
 struct DataLoaderImpl: DataLoader {
-    func load<T: Decodable>(urlStr: String) async throws -> T {
-        guard let url = URL(string: urlStr) else { throw AppError.invalidURL }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
+    func load<T: Decodable>(request: URLRequest) async throws -> T {        
+        let (data, response) = try await URLSession.shared.data(for: request)
         
         do {
             try handleResponse(response)
