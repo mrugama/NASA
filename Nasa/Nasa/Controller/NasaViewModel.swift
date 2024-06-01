@@ -13,9 +13,9 @@ protocol NasaViewModel {
     @MainActor 
     func search(for text: String) async
     @MainActor
-    func getImageData(with identifier: Nasa.ID) async throws -> Data
+    func getImageData(with identifier: String) async throws -> Data
     func item(with id: String) -> Nasa?
-    func itemIds() -> [Nasa.ID]
+    func itemIds() -> [String]
 }
 
 class NasaViewModelImpl: NasaViewModel {
@@ -29,7 +29,7 @@ class NasaViewModelImpl: NasaViewModel {
     @MainActor 
     func search(for text: String) async {
         do {
-            let search = EndpointManager.search(query: text, page: 1, items: 10)
+            let search = EndpointManager.search(query: text, page: 1, items: 50)
             let searchRequest = try search()
             let response: Response = try await dataLoader.load(request: searchRequest)
             nasaItems = response.collection.items

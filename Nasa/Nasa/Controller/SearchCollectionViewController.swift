@@ -111,8 +111,11 @@ extension SearchCollectionViewController: UISearchBarDelegate {
     }
 }
 
-extension Nasa: Identifiable {
-    var id: String {
-        UUID().uuidString
+extension SearchCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let identifier = nasaDataSource.itemIdentifier(for: indexPath),
+              let nasa = viewModel.item(with: identifier) else { return }
+        let detailVC = NasaDetailViewController(nasa: nasa)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

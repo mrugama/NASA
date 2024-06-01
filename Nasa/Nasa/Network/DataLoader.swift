@@ -39,6 +39,9 @@ struct DataLoaderImpl: DataLoader {
     }
     
     func load(urlStr: String) async throws -> Data {
+        if let cacheData = DataCache.shared.getData(for: urlStr) {
+            return cacheData
+        }
         guard let url = URL(string: urlStr) else { throw AppError.invalidURL }
         
         
@@ -51,7 +54,7 @@ struct DataLoaderImpl: DataLoader {
         guard (200...299).contains(httpResponse.statusCode) else {
             throw AppError.requestFailed(statusCode: httpResponse.statusCode)
         }
-        
+        DataCache.shared.storage(data: data, for: urlStr)
         return data
     }
     
@@ -63,5 +66,29 @@ struct DataLoaderImpl: DataLoader {
         guard (200...299).contains(httpResponse.statusCode) else {
             throw AppError.requestFailed(statusCode: httpResponse.statusCode)
         }
+    }
+}
+
+class DataCache {
+    // MARK: - Private properties
+    private static let domain = "Nasa.CachedData"
+    private let userDefaults = UserDefaults(suiteName: domain)
+    
+    // MARK: - Singleton
+    static let shared = DataCache()
+    
+    private init() {}
+    
+    // MARK: - Public methods
+    func storage(data: Data, for key: String) {
+        userDefaults?.setValue(data, forKey: key)
+    }
+    
+    func getData(for key: String) -> Data? {
+        userDefaults?.data(forKey: key)
+    }
+    
+    func clearCache() {
+        userDefaults?.removePersistentDomain(forName: Self.domain)
     }
 }

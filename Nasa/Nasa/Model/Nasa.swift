@@ -34,8 +34,11 @@ struct Nasa: Decodable {
 
 struct NasaInfo: Decodable {
     let title: String
+    let photographer: String?
     let nasa_id: String
     let description: String?
+    let description_508: String?
+    var location: String?
 }
 
 struct NasaLink: Decodable {

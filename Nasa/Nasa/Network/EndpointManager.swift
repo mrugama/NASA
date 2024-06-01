@@ -30,8 +30,11 @@ enum EndpointManager {
         }
     }
     
+    private var token: String {
+        "PASTE-YOUR-API-TOKEN_HERE"
+    }
+    
     func callAsFunction() throws -> URLRequest {
-        let token = "PASTE-YOUR-API-TOKEN_HERE"
         guard let url = URL(string: endpoint) else { throw AppError.invalidURL }
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
