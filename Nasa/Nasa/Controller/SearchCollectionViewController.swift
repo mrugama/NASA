@@ -58,6 +58,7 @@ class SearchCollectionViewController: UICollectionViewController {
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
         collectionView.register(NasaCollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
+        collectionView.prefetchDataSource = self
     }
     
     private func configureDataSource() {
@@ -100,6 +101,7 @@ class SearchCollectionViewController: UICollectionViewController {
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension SearchCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
@@ -111,11 +113,24 @@ extension SearchCollectionViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchCollectionViewController {
+// MARK: - Delegates
+extension SearchCollectionViewController: UICollectionViewDataSourcePrefetching {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let identifier = nasaDataSource.itemIdentifier(for: indexPath),
               let nasa = viewModel.item(with: identifier) else { return }
         let detailVC = NasaDetailViewController(nasa: nasa)
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for index in indexPaths {
+            if index.row >= viewModel.nasaItems.count - 15 {
+                Task {
+                    await viewModel.load()
+                    applySnapshot()
+                }
+                break
+            }
+        }
     }
 }

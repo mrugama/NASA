@@ -13,6 +13,8 @@ protocol NasaViewModel {
     @MainActor 
     func search(for text: String) async
     @MainActor
+    func load() async
+    @MainActor
     func getImageData(with identifier: String) async throws -> Data
     func item(with id: String) -> Nasa?
     func itemIds() -> [String]
@@ -25,14 +27,30 @@ class NasaViewModelImpl: NasaViewModel {
     }
     
     var nasaItems: [Nasa] = [Nasa]()
+    private var page: Int = 1
+    private var searchedText: String = ""
     
     @MainActor 
     func search(for text: String) async {
+        searchedText = text
         do {
-            let search = EndpointManager.search(query: text, page: 1, items: 50)
+            let search = EndpointManager.search(query: text, page: page, items: 50)
             let searchRequest = try search()
             let response: Response = try await dataLoader.load(request: searchRequest)
             nasaItems = response.collection.items
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    @MainActor
+    func load() async {
+        page += 1
+        do {
+            let search = EndpointManager.search(query: searchedText, page: page, items: 50)
+            let searchRequest = try search()
+            let response: Response = try await dataLoader.load(request: searchRequest)
+            nasaItems.append(contentsOf: response.collection.items)
         } catch {
             fatalError(error.localizedDescription)
         }
