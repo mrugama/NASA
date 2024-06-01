@@ -9,25 +9,30 @@ import UIKit
 
 class SearchCollectionViewController: UICollectionViewController {
     
-    private enum Section: Int {
+    private enum Section {
         case main
     }
     
-    private var nasaDataSource: UICollectionViewDiffableDataSource<Section, Nasa.ID>!
+    // MARK: - Value Types
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, String>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, String>
+    
+    // MARK: - Properties
+    private var nasaDataSource: DataSource!
     private var viewModel: NasaViewModel
-    private lazy var searchBar: UISearchBar = UISearchBar(frame: .init(x: 0, y: 0, width: 200, height: 20))
+    private var searchController = UISearchController(searchResultsController: nil)
     
     init(viewModel: NasaViewModel) {
         self.viewModel = viewModel
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalWidth(0.5))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalWidth(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(1.0))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+                                                   heightDimension: .fractionalWidth(1.0 / 3.0))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
             
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
@@ -47,58 +52,66 @@ class SearchCollectionViewController: UICollectionViewController {
         title = "NASA"
         
         configureCollectionView()
-        configureDataSource()
         configureSearchBar()
     }
     
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Nasa> { cell, indexPath, nasa in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Nasa> { cell, indexPath, nasa in
             var contentConfiguration = UIListContentConfiguration.cell()
-            contentConfiguration.image = UIImage(systemName: "heart.fill")
-            contentConfiguration.imageProperties.cornerRadius = 4
-            contentConfiguration.imageProperties.maximumSize = .init(width: 60, height: 60)
-            
+            if let nasaId = nasa.nasa_id {
+                Task {
+                    do {
+                        let imageData = try await self.viewModel.getImageData(with: nasaId)
+                        guard let image = UIImage(data: imageData) else { return }
+                        contentConfiguration.image = image
+                        cell.contentConfiguration = contentConfiguration
+                    } catch {
+                        fatalError("Couldn't resolve image url: \(error.localizedDescription)")
+                    }
+                }
+                
+            }
             cell.contentConfiguration = contentConfiguration
         }
         
-        nasaDataSource = UICollectionViewDiffableDataSource<Section, Nasa.ID>(collectionView: collectionView) { collectionView, indexPath, identifier in
-            guard let nasa = self.viewModel.item(with: identifier) else { return nil }
+        nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier in
+            guard let nasa = self.viewModel.item(with: identifier)
+            else {
+                return collectionView.dequeueReusableCell(withReuseIdentifier: "NasaCell", for: indexPath)
+            }
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: nasa)
         }
     }
     
-    private func loadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Nasa.ID>()
+    private func applySnapshot(animatingDifferences: Bool = true) {
+        var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.itemIds(), toSection: .main)
+        print("Snapshot items: \(snapshot.itemIdentifiers)")
         nasaDataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func configureSearchBar() {
-        let search = UISearchController(searchResultsController: nil)
-        search.searchBar.delegate = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Search..."
-        self.navigationItem.searchController = search
-    }
-    
-    private func updateData(with items: [Nasa]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Nasa.ID>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.itemIds(), toSection: .main)
-        nasaDataSource.apply(snapshot, animatingDifferences: true)
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search..."
+        navigationItem.searchController = searchController
     }
 }
 
 extension SearchCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        viewModel.search(for: searchText)
-        //print("Search button clicked with text: \(searchText)")
+        Task {
+            await viewModel.search(for: searchText)
+            configureDataSource()
+            applySnapshot()
+        }
     }
 }
 

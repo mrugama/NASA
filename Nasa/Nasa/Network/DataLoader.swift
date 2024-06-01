@@ -15,9 +15,9 @@ public enum AppError: Error {
 }
 
 protocol DataLoader {
-    /// Loads data from url and returns a type that must conform to Decodable
+    /// Loads data from given URLResquest and returns a type that must conform to Decodable
     func load<T: Decodable>(request: URLRequest) async throws -> T
-    /// Loads data from url and returns Data type
+    /// Loads data from given url and returns Data type
     func load(urlStr: String) async throws -> Data
 }
 
@@ -39,6 +39,7 @@ struct DataLoaderImpl: DataLoader {
     }
     
     func load(urlStr: String) async throws -> Data {
+        print("image url: \(urlStr)")
         guard let url = URL(string: urlStr) else { throw AppError.invalidURL }
         
         

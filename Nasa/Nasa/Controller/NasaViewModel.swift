@@ -5,13 +5,15 @@
 //  Created by Marlon Rugama on 5/31/24.
 //
 
-import Foundation
+import UIKit
 
 protocol NasaViewModel {
     var nasaItems: [Nasa] { get }
     
     @MainActor 
-    func search(for text: String)
+    func search(for text: String) async
+    @MainActor
+    func getImageData(with identifier: Nasa.ID) async throws -> Data
     func item(with id: String) -> Nasa?
     func itemIds() -> [Nasa.ID]
 }
@@ -22,28 +24,44 @@ class NasaViewModelImpl: NasaViewModel {
         self.dataLoader = dataLoader
     }
     
-    var nasaItems: [Nasa] = [Nasa]()
-    
-    @MainActor 
-    func search(for text: String) {
-        Task {
-            do {
-                let search = EndpointManager.search(query: text, page: 1, items: 50)
-                let searchRequest = try search()
-                let response: Response = try await dataLoader.load(request: searchRequest)
-                print(response)
-//                nasaItems = response.collection.items
-            } catch {
-                fatalError(error.localizedDescription)
+    var nasaItems: [Nasa] = [Nasa]() {
+        didSet {
+            nasaItems.forEach { nasa in
+                print(nasa.href ?? "Empty url for \(nasa)")
             }
         }
     }
     
-    func item(with id: String) -> Nasa? {
-        return nasaItems.first { $0.id == id }
+    @MainActor 
+    func search(for text: String) async {
+        do {
+            let search = EndpointManager.search(query: text, page: 1, items: 10)
+            let searchRequest = try search()
+            let response: Response = try await dataLoader.load(request: searchRequest)
+            nasaItems = response.collection.items
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
     
-    func itemIds() -> [Nasa.ID] {
-        return nasaItems.map { $0.id }
+    @MainActor
+    func getImageData(with identifier: String) async throws -> Data {
+        guard
+            let nasa = item(with: identifier),
+            let urlStr = nasa.href
+        else { throw AppError.invalidURL }
+        do {
+            return try await dataLoader.load(urlStr: urlStr)
+        } catch {
+            throw error
+        }
+    }
+    
+    func item(with id: String) -> Nasa? {
+        return nasaItems.first { $0.nasa_id == id }
+    }
+    
+    func itemIds() -> [String] {
+        return nasaItems.map { $0.nasa_id ?? UUID().uuidString }
     }
 }

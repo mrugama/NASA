@@ -13,14 +13,23 @@ struct Response: Decodable {
 
 struct ResponseDetail: Decodable {
     let version: String
-    let href: String
     let items: [Nasa]
 }
 
-struct Nasa: Decodable {
-    let href: String
+@dynamicMemberLookup
+struct Nasa: Decodable {    
     let data: [NasaInfo]
     let links: [NasaLink]?
+    
+    subscript<T>(dynamicMember keyPath: KeyPath<NasaLink, T>) -> T? {
+        guard let item = links?.first else { return nil }
+        return item[keyPath: keyPath]
+    }
+    
+    subscript<T>(dynamicMember keyPath: KeyPath<NasaInfo, T>) -> T? {
+        guard let item = data.first else { return nil }
+        return item[keyPath: keyPath]
+    }
 }
 
 struct NasaInfo: Decodable {
