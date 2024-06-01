@@ -28,7 +28,7 @@ class NasaViewModelImpl: NasaViewModel {
     func search(for text: String) {
         Task {
             do {
-                let search = EndpointManager.search(query: text)
+                let search = EndpointManager.search(query: text, page: 1, items: 50)
                 let searchRequest = try search()
                 let response: Response = try await dataLoader.load(request: searchRequest)
                 print(response)

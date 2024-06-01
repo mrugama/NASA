@@ -24,7 +24,6 @@ struct Nasa: Decodable {
 }
 
 struct NasaInfo: Decodable {
-    let center: String
     let title: String
     let nasa_id: String
     let description: String?

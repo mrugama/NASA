@@ -8,22 +8,25 @@
 import Foundation
 
 enum EndpointManager {
-    case search(query: String)
-    case asset(nasaId: String)
-    case metadata(nasaId: String)
-    case album(name: String)
+    case search(query: String, page: Int, items: Int),
+         asset(nasaId: String),
+         metadata(nasaId: String),
+         captions(nasaId: String),
+         album(name: String)
     
     private var endpoint: String {
         let rootAPI = "https://images-api.nasa.gov"
         switch self {
-        case .search(let query):
-            return "\(rootAPI)/search?q=\(query)&media_type=image"
+        case .search(let query, let page, let items):
+            return "\(rootAPI)/search?q=\(query)&media_type=image&page=\(page)&page_size=\(items)"
         case .asset(let nasaId):
-            return "\(rootAPI)/search?q=\(nasaId)&media_type=image"
+            return "\(rootAPI)/asset/\(nasaId)"
         case .metadata(let nasaId):
-            return "\(rootAPI)/search?q=\(nasaId)&media_type=image"
+            return "\(rootAPI)/metadata/\(nasaId)"
+        case .captions(let nasaId):
+            return "\(rootAPI)/captions/\(nasaId)"
         case .album(let name):
-            return "\(rootAPI)/search?q=\(name)&media_type=image"
+            return "\(rootAPI)/album/\(name)"
         }
     }
     
