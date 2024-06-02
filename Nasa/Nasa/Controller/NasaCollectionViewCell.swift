@@ -9,8 +9,6 @@ import UIKit
 
 class NasaCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "NasaCollectionViewCell"
-    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

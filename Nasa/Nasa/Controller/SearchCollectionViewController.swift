@@ -22,6 +22,7 @@ class SearchCollectionViewController: UICollectionViewController {
     private var viewModel: NasaViewModel
     private var searchController = UISearchController(searchResultsController: nil)
     
+    // MARK: - Init
     init(viewModel: NasaViewModel) {
         self.viewModel = viewModel
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
@@ -46,6 +47,12 @@ class SearchCollectionViewController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        DataCache.shared.clearCache()
+    }
+    
+    // MARK: - Controller lifecyle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -54,6 +61,8 @@ class SearchCollectionViewController: UICollectionViewController {
         configureCollectionView()
         configureSearchBar()
     }
+    
+    // MARK: - Private helpers
     
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
@@ -64,14 +73,13 @@ class SearchCollectionViewController: UICollectionViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<NasaCollectionViewCell, Nasa> { cell, indexPath, nasa in
             if let nasaId = nasa.nasa_id {
-                Task {
-                    do {
-                        let imageData = try await self.viewModel.getImageData(with: nasaId)
-                        let image = UIImage(data: imageData)
+                self.viewModel.getImageData(with: nasaId) { result in
+                    switch result {
+                    case .success(let data):
+                        let image = UIImage(data: data)
                         cell.configure(with: image)
-                    } catch {
-                        print("Couldn't resolve image url: \(error.localizedDescription)")
-                        cell.configure(with: nil)
+                    case .failure(let error):
+                        return
                     }
                 }
             }
@@ -105,15 +113,14 @@ class SearchCollectionViewController: UICollectionViewController {
 extension SearchCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        Task {
-            await viewModel.search(for: searchText)
-            configureDataSource()
-            applySnapshot()
+        viewModel.search(for: searchText) { [weak self] in
+            self?.configureDataSource()
+            self?.applySnapshot()
         }
     }
 }
 
-// MARK: - Delegates
+// MARK: - Delegate & DataSourcePrefetching
 extension SearchCollectionViewController: UICollectionViewDataSourcePrefetching {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let identifier = nasaDataSource.itemIdentifier(for: indexPath),
@@ -125,9 +132,8 @@ extension SearchCollectionViewController: UICollectionViewDataSourcePrefetching 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for index in indexPaths {
             if index.row >= viewModel.nasaItems.count - 15 {
-                Task {
-                    await viewModel.load()
-                    applySnapshot()
+                viewModel.load() { [weak self] in
+                    self?.applySnapshot()
                 }
                 break
             }

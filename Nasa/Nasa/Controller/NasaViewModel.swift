@@ -8,14 +8,16 @@
 import UIKit
 
 protocol NasaViewModel {
+    typealias Completion = () -> ()
+    typealias ImageCompletion = (Result<Data, Error>) -> ()
     var nasaItems: [Nasa] { get }
     
     @MainActor 
-    func search(for text: String) async
+    func search(for text: String, _ completion: @escaping Completion)
     @MainActor
-    func load() async
+    func load(_ completion: @escaping Completion)
     @MainActor
-    func getImageData(with identifier: String) async throws -> Data
+    func getImageData(with identifier: String, _ completion: @escaping ImageCompletion)
     func item(with id: String) -> Nasa?
     func itemIds() -> [String]
 }
@@ -31,41 +33,50 @@ class NasaViewModelImpl: NasaViewModel {
     private var searchedText: String = ""
     
     @MainActor 
-    func search(for text: String) async {
+    func search(for text: String, _ completion: @escaping Completion) {
         searchedText = text
-        do {
-            let search = EndpointManager.search(query: text, page: page, items: 50)
-            let searchRequest = try search()
-            let response: Response = try await dataLoader.load(request: searchRequest)
-            nasaItems = response.collection.items
-        } catch {
-            fatalError(error.localizedDescription)
+        Task {
+            do {
+                let search = EndpointManager.search(query: text, page: page, items: 50)
+                let searchRequest = try search()
+                let response: Response = try await dataLoader.load(request: searchRequest)
+                nasaItems = response.collection.items
+                completion()
+            } catch {
+                fatalError(error.localizedDescription)
+            }
         }
     }
     
     @MainActor
-    func load() async {
+    func load(_ completion: @escaping Completion) {
         page += 1
-        do {
-            let search = EndpointManager.search(query: searchedText, page: page, items: 50)
-            let searchRequest = try search()
-            let response: Response = try await dataLoader.load(request: searchRequest)
-            nasaItems.append(contentsOf: response.collection.items)
-        } catch {
-            fatalError(error.localizedDescription)
+        Task {
+            do {
+                let search = EndpointManager.search(query: searchedText, page: page, items: 50)
+                let searchRequest = try search()
+                let response: Response = try await dataLoader.load(request: searchRequest)
+                nasaItems.append(contentsOf: response.collection.items)
+                completion()
+            } catch {
+                fatalError(error.localizedDescription)
+            }
         }
     }
     
     @MainActor
-    func getImageData(with identifier: String) async throws -> Data {
+    func getImageData(with identifier: String, _ completion: @escaping ImageCompletion) {
         guard
             let nasa = item(with: identifier),
             let urlStr = nasa.href
-        else { throw AppError.invalidURL }
-        do {
-            return try await dataLoader.load(urlStr: urlStr)
-        } catch {
-            throw error
+        else { completion(.failure(AppError.invalidURL)); return }
+        Task {
+            do {
+                let data = try await dataLoader.load(urlStr: urlStr)
+                completion(.success(data))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
     

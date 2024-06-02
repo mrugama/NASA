@@ -22,13 +22,11 @@ struct Nasa: Decodable {
     let links: [NasaLink]?
     
     subscript<T>(dynamicMember keyPath: KeyPath<NasaLink, T>) -> T? {
-        guard let item = links?.first else { return nil }
-        return item[keyPath: keyPath]
+        return links?.first?[keyPath: keyPath]
     }
     
     subscript<T>(dynamicMember keyPath: KeyPath<NasaInfo, T>) -> T? {
-        guard let item = data.first else { return nil }
-        return item[keyPath: keyPath]
+        return data.first?[keyPath: keyPath]
     }
 }
 

@@ -19,19 +19,19 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     
     private let nasa: Nasa
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -40,7 +40,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         return imageView
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 24)
@@ -48,7 +48,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
@@ -56,7 +56,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         return label
     }()
     
-    private let photographerLabel: UILabel = {
+    private lazy var photographerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -64,7 +64,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         return label
     }()
     
-    private let locationLabel: UILabel = {
+    private lazy var locationLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -76,10 +76,11 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     
     init(nasa: Nasa) {
         self.nasa = nasa
+        super.init(nibName: nil, bundle: nil)
+        
         if let urlStr = nasa.href, let imageData = DataCache.shared.getData(for: urlStr) {
             self.imageView.image = UIImage(data: imageData)
         }
-        super.init(nibName: nil, bundle: nil)
         configureUI()
     }
     
