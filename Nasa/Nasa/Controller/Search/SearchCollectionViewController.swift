@@ -84,8 +84,8 @@ class SearchCollectionViewController: UICollectionViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.itemIds(), toSection: .main)
-        nasaDataSource.apply(snapshot, animatingDifferences: true)
+        snapshot.appendItems(viewModel.itemIds())
+        nasaDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
     private func configureSearchBar() {
@@ -102,7 +102,7 @@ extension SearchCollectionViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         viewModel.search(for: searchText) { [weak self] in
             self?.configureDataSource()
-            self?.applySnapshot()
+            self?.applySnapshot(animatingDifferences: false)
         }
     }
 }
