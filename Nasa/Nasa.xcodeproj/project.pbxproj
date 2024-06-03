@@ -16,10 +16,11 @@
 		E59A46512C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46502C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift */; };
 		E59A46602C0A2D6F00FD7F4E /* Nasa.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A465F2C0A2D6F00FD7F4E /* Nasa.swift */; };
 		E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46642C0A703300FD7F4E /* DataLoader.swift */; };
-		E59A46682C0A713A00FD7F4E /* NasaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */; };
+		E59A46682C0A713A00FD7F4E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */; };
 		E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46692C0A964900FD7F4E /* EndpointManager.swift */; };
-		E59A466C2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */; };
+		E59A466C2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */; };
 		E59A466E2C0B69EB00FD7F4E /* NasaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466D2C0B69EB00FD7F4E /* NasaDetailViewController.swift */; };
+		E59A46702C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466F2C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,10 +54,11 @@
 		E59A46502C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E59A465F2C0A2D6F00FD7F4E /* Nasa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nasa.swift; sourceTree = "<group>"; };
 		E59A46642C0A703300FD7F4E /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
-		E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaViewModel.swift; sourceTree = "<group>"; };
+		E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E59A46692C0A964900FD7F4E /* EndpointManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointManager.swift; sourceTree = "<group>"; };
-		E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaCollectionViewCell.swift; sourceTree = "<group>"; };
+		E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		E59A466D2C0B69EB00FD7F4E /* NasaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaDetailViewController.swift; sourceTree = "<group>"; };
+		E59A466F2C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCellRegistration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,10 +139,8 @@
 		E59A46612C0A6EEB00FD7F4E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E59A46312C0A0FBE00FD7F4E /* SearchCollectionViewController.swift */,
+				E59A46712C0DECBF00FD7F4E /* Search */,
 				E59A466D2C0B69EB00FD7F4E /* NasaDetailViewController.swift */,
-				E59A466B2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift */,
-				E59A46672C0A713A00FD7F4E /* NasaViewModel.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -169,6 +169,17 @@
 				E59A46692C0A964900FD7F4E /* EndpointManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		E59A46712C0DECBF00FD7F4E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E59A46312C0A0FBE00FD7F4E /* SearchCollectionViewController.swift */,
+				E59A466F2C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift */,
+				E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */,
+				E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,14 +312,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */,
-				E59A466C2C0B5C9400FD7F4E /* NasaCollectionViewCell.swift in Sources */,
+				E59A466C2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift in Sources */,
 				E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */,
+				E59A46702C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift in Sources */,
 				E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */,
 				E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */,
 				E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */,
 				E59A466E2C0B69EB00FD7F4E /* NasaDetailViewController.swift in Sources */,
 				E59A46602C0A2D6F00FD7F4E /* Nasa.swift in Sources */,
-				E59A46682C0A713A00FD7F4E /* NasaViewModel.swift in Sources */,
+				E59A46682C0A713A00FD7F4E /* SearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,20 +19,22 @@ class SearchCollectionViewController: UICollectionViewController {
     
     // MARK: - Properties
     private var nasaDataSource: DataSource!
-    private var viewModel: NasaViewModel
+    private var viewModel: SearchViewModel
     private var searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Init
-    init(viewModel: NasaViewModel) {
+    init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
+        
+        let columns = 3.0
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / 3),
-                                                  heightDimension: .fractionalWidth(1.0 / 3))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / columns),
+                                                  heightDimension: .fractionalWidth(1.0 / columns))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(1.0 / 3.0))
+                                                   heightDimension: .fractionalWidth(1.0 / columns))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -66,30 +68,15 @@ class SearchCollectionViewController: UICollectionViewController {
     
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.register(NasaCollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
+        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
         collectionView.prefetchDataSource = self
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<NasaCollectionViewCell, Nasa> { cell, indexPath, nasa in
-            if let nasaId = nasa.nasa_id {
-                self.viewModel.getImageData(with: nasaId) { result in
-                    switch result {
-                    case .success(let data):
-                        let image = UIImage(data: data)
-                        cell.configure(with: image)
-                    case .failure(let error):
-                        return
-                    }
-                }
-            }
-        }
+        let cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, Nasa> = .init(viewModel)
         
         nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier in
-            guard let nasa = self.viewModel.item(with: identifier)
-            else {
-                return collectionView.dequeueReusableCell(withReuseIdentifier: "NasaCell", for: indexPath)
-            }
+            guard let nasa = self.viewModel.item(with: identifier) else { return UICollectionViewCell() }
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: nasa)
         }
     }

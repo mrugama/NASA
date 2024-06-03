@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NasaCollectionViewCell: UICollectionViewCell {
+class SearchCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()

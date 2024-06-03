@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol NasaViewModel {
+protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
     var nasaItems: [Nasa] { get }
@@ -22,7 +22,7 @@ protocol NasaViewModel {
     func itemIds() -> [String]
 }
 
-class NasaViewModelImpl: NasaViewModel {
+class SearchViewModelImpl: SearchViewModel {
     private let dataLoader: DataLoader
     init(dataLoader: DataLoader) {
         self.dataLoader = dataLoader

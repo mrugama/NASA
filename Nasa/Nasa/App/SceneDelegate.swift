@@ -55,9 +55,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 fileprivate extension SceneDelegate {
-    func configureViewModel() -> NasaViewModel {
+    func configureViewModel() -> SearchViewModel {
         let dataLoader: DataLoader = DataLoaderImpl()
-        let vm = NasaViewModelImpl(dataLoader: dataLoader)
+        let vm = SearchViewModelImpl(dataLoader: dataLoader)
         return vm
     }
 }
