@@ -27,21 +27,7 @@ class SearchCollectionViewController: UICollectionViewController {
         self.viewModel = viewModel
         
         let columns = 3.0
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / columns),
-                                                  heightDimension: .fractionalWidth(1.0 / columns))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = .init(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(1.0 / columns))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
-            
-            return section
-        }
+        let layout: UICollectionViewLayout = UICollectionViewCompositionalLayout.init(columns: 3)
         super.init(collectionViewLayout: layout)
     }
     

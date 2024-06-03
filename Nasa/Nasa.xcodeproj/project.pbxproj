@@ -21,6 +21,7 @@
 		E59A466C2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */; };
 		E59A466E2C0B69EB00FD7F4E /* NasaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466D2C0B69EB00FD7F4E /* NasaDetailViewController.swift */; };
 		E59A46702C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466F2C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift */; };
+		E59A46732C0DF24600FD7F4E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46722C0DF24600FD7F4E /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		E59A466D2C0B69EB00FD7F4E /* NasaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaDetailViewController.swift; sourceTree = "<group>"; };
 		E59A466F2C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCellRegistration.swift; sourceTree = "<group>"; };
+		E59A46722C0DF24600FD7F4E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				E59A46662C0A70F600FD7F4E /* Network */,
 				E59A46362C0A0FBF00FD7F4E /* Assets.xcassets */,
 				E59A463B2C0A0FBF00FD7F4E /* Info.plist */,
+				E59A46742C0DF24F00FD7F4E /* Support */,
 			);
 			path = Nasa;
 			sourceTree = "<group>";
@@ -180,6 +183,14 @@
 				E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		E59A46742C0DF24F00FD7F4E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				E59A46722C0DF24600FD7F4E /* Extensions.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,6 +331,7 @@
 				E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */,
 				E59A466E2C0B69EB00FD7F4E /* NasaDetailViewController.swift in Sources */,
 				E59A46602C0A2D6F00FD7F4E /* Nasa.swift in Sources */,
+				E59A46732C0DF24600FD7F4E /* Extensions.swift in Sources */,
 				E59A46682C0A713A00FD7F4E /* SearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
