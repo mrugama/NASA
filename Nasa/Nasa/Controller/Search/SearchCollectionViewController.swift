@@ -26,7 +26,6 @@ class SearchCollectionViewController: UICollectionViewController {
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
         
-        let columns = 3.0
         let layout: UICollectionViewLayout = UICollectionViewCompositionalLayout.init(columns: 3)
         super.init(collectionViewLayout: layout)
     }
