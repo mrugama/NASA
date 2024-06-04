@@ -17,7 +17,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    private let nasa: Nasa
+    private let nasa: NasaViewModel
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -74,12 +74,12 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     
     private var imageViewHeightConstraint: NSLayoutConstraint!
     
-    init(nasa: Nasa) {
+    init(nasa: NasaViewModel) {
         self.nasa = nasa
         super.init(nibName: nil, bundle: nil)
         
-        if let urlStr = nasa.href, let imageData = DataCache.shared.getData(for: urlStr) {
-            self.imageView.image = UIImage(data: imageData)
+        nasa.getImage { [weak self] image in
+            self?.imageView.image = image
         }
         configureUI()
     }
@@ -143,9 +143,9 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         ])
         
         titleLabel.text = nasa.title
-        descriptionLabel.text = nasa.description ?? nasa.description_508 ?? "No info"
-        photographerLabel.attributedText = decorateText(with: .person, text: (nasa.photographer ?? "-") ?? "-")
-        locationLabel.attributedText = decorateText(with: .location, text: (nasa.location ?? "-") ?? "-")
+        descriptionLabel.text = nasa.description
+        photographerLabel.attributedText = decorateText(with: .person, text: nasa.photographer)
+        locationLabel.attributedText = decorateText(with: .location, text: nasa.location)
     }
     
     // MARK: - Helper methods

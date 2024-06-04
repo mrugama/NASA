@@ -17,10 +17,7 @@ struct ResponseDetail: Decodable {
 }
 
 @dynamicMemberLookup
-struct Nasa: Decodable, Hashable, Identifiable {
-    var id: String {
-        self.nasa_id ?? UUID().uuidString
-    }
+struct Nasa: Decodable {
     let data: [NasaInfo]
     let links: [NasaLink]?
     
@@ -30,14 +27,6 @@ struct Nasa: Decodable, Hashable, Identifiable {
     
     subscript<T>(dynamicMember keyPath: KeyPath<NasaInfo, T>) -> T? {
         return data.first?[keyPath: keyPath]
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: Nasa, rhs: Nasa) -> Bool {
-        lhs.id == rhs.id
     }
 }
 

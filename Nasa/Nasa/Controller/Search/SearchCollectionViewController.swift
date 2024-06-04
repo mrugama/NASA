@@ -14,8 +14,8 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     // MARK: - Value Types
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Nasa>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Nasa>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, NasaViewModel>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, NasaViewModel>
     
     // MARK: - Properties
     private var nasaDataSource: DataSource!
@@ -58,7 +58,7 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, Nasa> = .init(viewModel)
+        let cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, NasaViewModel> = .init(viewModel)
         
         nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, nasa in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: nasa)

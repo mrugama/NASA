@@ -10,14 +10,12 @@ import UIKit
 protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
-    var nasaItems: [Nasa] { get }
+    var nasaItems: [NasaViewModel] { get }
     
     @MainActor 
     func search(for text: String, _ completion: @escaping Completion)
     @MainActor
     func loadPrefetchingItems(index: Int, _ completion: @escaping Completion)
-    @MainActor
-    func getImageData(with nasa: Nasa, _ completion: @escaping ImageCompletion)
 }
 
 class SearchViewModelImpl: SearchViewModel {
@@ -26,7 +24,7 @@ class SearchViewModelImpl: SearchViewModel {
         self.dataLoader = dataLoader
     }
     
-    var nasaItems: [Nasa] = [Nasa]()
+    var nasaItems = [NasaViewModel]()
     private var page: Int = 1
     private var searchedText: String = ""
     
@@ -38,7 +36,7 @@ class SearchViewModelImpl: SearchViewModel {
                 let search = EndpointManager.search(query: text, page: page, items: 50)
                 let searchRequest = try search()
                 let response: Response = try await dataLoader.load(request: searchRequest)
-                nasaItems = response.collection.items
+                nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
                 completion()
             } catch {
                 fatalError(error.localizedDescription)
@@ -55,7 +53,9 @@ class SearchViewModelImpl: SearchViewModel {
                     let search = EndpointManager.search(query: searchedText, page: page, items: 50)
                     let searchRequest = try search()
                     let response: Response = try await dataLoader.load(request: searchRequest)
-                    nasaItems.append(contentsOf: response.collection.items)
+                    nasaItems.append(
+                        contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
+                    )
                     completion()
                 } catch {
                     fatalError(error.localizedDescription)
