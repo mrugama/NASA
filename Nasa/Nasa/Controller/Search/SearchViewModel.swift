@@ -15,11 +15,9 @@ protocol SearchViewModel {
     @MainActor 
     func search(for text: String, _ completion: @escaping Completion)
     @MainActor
-    func load(_ completion: @escaping Completion)
+    func loadPrefetchingItems(index: Int, _ completion: @escaping Completion)
     @MainActor
-    func getImageData(with identifier: String, _ completion: @escaping ImageCompletion)
-    func item(with id: String) -> Nasa?
-    func itemIds() -> [String]
+    func getImageData(with nasa: Nasa, _ completion: @escaping ImageCompletion)
 }
 
 class SearchViewModelImpl: SearchViewModel {
@@ -49,25 +47,26 @@ class SearchViewModelImpl: SearchViewModel {
     }
     
     @MainActor
-    func load(_ completion: @escaping Completion) {
-        page += 1
-        Task {
-            do {
-                let search = EndpointManager.search(query: searchedText, page: page, items: 50)
-                let searchRequest = try search()
-                let response: Response = try await dataLoader.load(request: searchRequest)
-                nasaItems.append(contentsOf: response.collection.items)
-                completion()
-            } catch {
-                fatalError(error.localizedDescription)
+    func loadPrefetchingItems(index: Int, _ completion: @escaping Completion) {
+        if shouldPrefetch(index: index) {
+            page += 1
+            Task {
+                do {
+                    let search = EndpointManager.search(query: searchedText, page: page, items: 50)
+                    let searchRequest = try search()
+                    let response: Response = try await dataLoader.load(request: searchRequest)
+                    nasaItems.append(contentsOf: response.collection.items)
+                    completion()
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
             }
         }
     }
     
     @MainActor
-    func getImageData(with identifier: String, _ completion: @escaping ImageCompletion) {
+    func getImageData(with nasa: Nasa, _ completion: @escaping ImageCompletion) {
         guard
-            let nasa = item(with: identifier),
             let urlStr = nasa.href
         else { completion(.failure(AppError.invalidURL)); return }
         Task {
@@ -80,11 +79,10 @@ class SearchViewModelImpl: SearchViewModel {
         }
     }
     
-    func item(with id: String) -> Nasa? {
-        return nasaItems.first { $0.nasa_id == id }
-    }
+    // MARK: - Helper methods
     
-    func itemIds() -> [String] {
-        return nasaItems.map { $0.nasa_id ?? UUID().uuidString }
+    private func shouldPrefetch(index: Int) -> Bool {
+        let prefetchAtIndex = 15
+        return (nasaItems.count - prefetchAtIndex) == index
     }
 }
