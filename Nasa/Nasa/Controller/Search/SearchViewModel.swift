@@ -14,31 +14,37 @@ enum SearchFilter: String, CaseIterable {
 protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
+    
     var nasaItems: [NasaViewModel] { get }
     var searchByOptions: [String] { get }
     
-    @MainActor 
-    func search(for text: String, option: EndpointManager.SearchOption, _ completion: @escaping Completion)
+    @MainActor
+    func search(for text: String, selectedOption: String?, _ completion: @escaping Completion)
     @MainActor
     func loadPrefetchingItems(index: Int, _ completion: @escaping Completion)
 }
 
 class SearchViewModelImpl: SearchViewModel {
+    typealias Option = EndpointManager.SearchOption
+    
     private let dataLoader: DataLoader
     init(dataLoader: DataLoader) {
         self.dataLoader = dataLoader
     }
     
     var nasaItems = [NasaViewModel]()
-    var searchByOptions = EndpointManager.SearchOption.allCases.map { $0.capitalized }
+    var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
     private var page: Int = 1
     private var searchedText: String = ""
     private var option: EndpointManager.SearchOption = .all
     
     @MainActor 
-    func search(for text: String, option: EndpointManager.SearchOption, _ completion: @escaping Completion) {
+    func search(for text: String, selectedOption: String?, _ completion: @escaping Completion) {
         searchedText = text
-        self.option = option
+        if let selectedOptionStr = selectedOption, 
+            let selectedOption = Option(rawValue: selectedOptionStr.lowercased()) {
+            self.option = selectedOption
+        }
         Task {
             do {
                 let search = EndpointManager.search(query: text, page: page, items: 50, option: option)

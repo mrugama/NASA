@@ -85,20 +85,20 @@ class SearchCollectionViewController: UICollectionViewController {
 extension SearchCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        viewModel.search(for: searchText, option: .all) { [weak self] in
+        viewModel.search(for: searchText, selectedOption: nil) { [weak self] in
             self?.configureDataSource()
             self?.applySnapshot(animatingDifferences: false)
         }
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        guard let scopeTitles = searchBar.scopeButtonTitles else { return }
+        guard 
+            let scopeTitles = searchBar.scopeButtonTitles,
+            let searchText = searchBar.text
+        else { return }
         
         let selectedOption = scopeTitles[selectedScope]
-        guard 
-            let option = EndpointManager.SearchOption(rawValue: selectedOption.lowercased()),
-            let searchText = searchBar.text else { return }
-        viewModel.search(for: searchText, option: option) { [weak self] in
+        viewModel.search(for: searchText, selectedOption: selectedOption) { [weak self] in
             self?.configureDataSource()
             self?.applySnapshot(animatingDifferences: false)
         }

@@ -15,12 +15,8 @@ enum EndpointManager {
             switch self {
             case .all:
                 return
-            case .title:
-                queryItems.append(URLQueryItem(name: "title", value: query))
-            case .photographer:
-                queryItems.append(URLQueryItem(name: "photographer", value: query))
-            case .location:
-                queryItems.append(URLQueryItem(name: "location", value: query))
+            default:
+                queryItems.append(URLQueryItem(name: self.rawValue, value: query))
             }
         }
         
