@@ -7,13 +7,18 @@
 
 import UIKit
 
+enum SearchFilter: String, CaseIterable {
+    case title, photographer, location
+}
+
 protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
     var nasaItems: [NasaViewModel] { get }
+    var searchByOptions: [String] { get }
     
     @MainActor 
-    func search(for text: String, _ completion: @escaping Completion)
+    func search(for text: String, option: EndpointManager.SearchOption, _ completion: @escaping Completion)
     @MainActor
     func loadPrefetchingItems(index: Int, _ completion: @escaping Completion)
 }
@@ -25,15 +30,18 @@ class SearchViewModelImpl: SearchViewModel {
     }
     
     var nasaItems = [NasaViewModel]()
+    var searchByOptions = EndpointManager.SearchOption.allCases.map { $0.capitalized }
     private var page: Int = 1
     private var searchedText: String = ""
+    private var option: EndpointManager.SearchOption = .all
     
     @MainActor 
-    func search(for text: String, _ completion: @escaping Completion) {
+    func search(for text: String, option: EndpointManager.SearchOption, _ completion: @escaping Completion) {
         searchedText = text
+        self.option = option
         Task {
             do {
-                let search = EndpointManager.search(query: text, page: page, items: 50)
+                let search = EndpointManager.search(query: text, page: page, items: 50, option: option)
                 let searchRequest = try search()
                 let response: Response = try await dataLoader.load(request: searchRequest)
                 nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
@@ -50,7 +58,7 @@ class SearchViewModelImpl: SearchViewModel {
             page += 1
             Task {
                 do {
-                    let search = EndpointManager.search(query: searchedText, page: page, items: 50)
+                    let search = EndpointManager.search(query: searchedText, page: page, items: 50, option: option)
                     let searchRequest = try search()
                     let response: Response = try await dataLoader.load(request: searchRequest)
                     nasaItems.append(

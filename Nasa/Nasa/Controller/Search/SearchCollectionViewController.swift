@@ -73,6 +73,7 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     private func configureSearchBar() {
+        searchController.searchBar.scopeButtonTitles = viewModel.searchByOptions
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search..."
@@ -84,7 +85,20 @@ class SearchCollectionViewController: UICollectionViewController {
 extension SearchCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        viewModel.search(for: searchText) { [weak self] in
+        viewModel.search(for: searchText, option: .all) { [weak self] in
+            self?.configureDataSource()
+            self?.applySnapshot(animatingDifferences: false)
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        guard let scopeTitles = searchBar.scopeButtonTitles else { return }
+        
+        let selectedOption = scopeTitles[selectedScope]
+        guard 
+            let option = EndpointManager.SearchOption(rawValue: selectedOption.lowercased()),
+            let searchText = searchBar.text else { return }
+        viewModel.search(for: searchText, option: option) { [weak self] in
             self?.configureDataSource()
             self?.applySnapshot(animatingDifferences: false)
         }
