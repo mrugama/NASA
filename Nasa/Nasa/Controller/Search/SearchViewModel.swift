@@ -7,10 +7,6 @@
 
 import UIKit
 
-enum SearchFilter: String, CaseIterable {
-    case title, photographer, location
-}
-
 protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
