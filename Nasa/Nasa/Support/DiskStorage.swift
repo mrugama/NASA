@@ -8,7 +8,7 @@
 import Foundation
 
 struct DiskStorage {
-    var path: URL?
+    private var path: URL?
     private var imageData: Data? {
         get {
             guard
