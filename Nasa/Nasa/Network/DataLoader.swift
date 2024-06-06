@@ -18,7 +18,7 @@ protocol DataLoader {
     /// Loads data from given URLResquest and returns a type that must conform to Decodable
     func load<T: Decodable>(request: URLRequest) async throws -> T
     /// Loads data from given url and returns Data type
-    func load(urlStr: String) async throws -> Data
+    func load(urlStr: String, storage: DiskStorage<Data>) async throws -> Data
 }
 
 struct DataLoaderImpl: DataLoader {
@@ -38,9 +38,9 @@ struct DataLoaderImpl: DataLoader {
         return decodedData
     }
     
-    func load(urlStr: String) async throws -> Data {
-        var disakStorage = DiskStorage()
-        if let cacheData = disakStorage.getImageData(urlStr) {
+    func load(urlStr: String, storage: DiskStorage<Data>) async throws -> Data {
+        var storage = storage
+        if let cacheData = storage.getImageData(urlStr) {
             return cacheData
         }
         guard let url = URL(string: urlStr) else { throw AppError.invalidURL }
@@ -55,7 +55,7 @@ struct DataLoaderImpl: DataLoader {
         guard (200...299).contains(httpResponse.statusCode) else {
             throw AppError.requestFailed(statusCode: httpResponse.statusCode)
         }
-        disakStorage.save(urlStr, value: data)
+        storage.save(urlStr, value: data)
         return data
     }
     

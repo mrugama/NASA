@@ -57,7 +57,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 fileprivate extension SceneDelegate {
     func configureViewModel() -> SearchViewModel {
         let dataLoader: DataLoader = DataLoaderImpl()
-        let vm = SearchViewModelImpl(dataLoader: dataLoader)
+        let storage: DiskStorage<Data> = .init()
+        let vm = SearchViewModelImpl(dataLoader: dataLoader, storage: storage)
         return vm
     }
 }

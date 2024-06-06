@@ -11,6 +11,7 @@ protocol SearchViewModel {
     typealias Completion = () -> ()
     typealias ImageCompletion = (Result<Data, Error>) -> ()
     
+    var storage: DiskStorage<Data> { get }
     var nasaItems: [NasaViewModel] { get }
     var searchByOptions: [String] { get }
     
@@ -24,15 +25,17 @@ class SearchViewModelImpl: SearchViewModel {
     typealias Option = EndpointManager.SearchOption
     
     private let dataLoader: DataLoader
-    init(dataLoader: DataLoader) {
-        self.dataLoader = dataLoader
-    }
-    
-    var nasaItems = [NasaViewModel]()
-    var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
     private var page: Int = 1
     private var searchedText: String = ""
     private var option: EndpointManager.SearchOption = .all
+    let storage: DiskStorage<Data>
+    var nasaItems = [NasaViewModel]()
+    var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
+    
+    init(dataLoader: DataLoader, storage: DiskStorage<Data>) {
+        self.dataLoader = dataLoader
+        self.storage = storage
+    }
     
     @MainActor 
     func search(for text: String, selectedOption: String?, _ completion: @escaping Completion) {
@@ -46,7 +49,7 @@ class SearchViewModelImpl: SearchViewModel {
                 let search = EndpointManager.search(query: text, page: page, items: 50, option: option)
                 let searchRequest = try search()
                 let response: Response = try await dataLoader.load(request: searchRequest)
-                nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
+                nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader, storage: storage) }
                 completion()
             } catch {
                 fatalError(error.localizedDescription)
@@ -64,7 +67,7 @@ class SearchViewModelImpl: SearchViewModel {
                     let searchRequest = try search()
                     let response: Response = try await dataLoader.load(request: searchRequest)
                     nasaItems.append(
-                        contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
+                        contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader, storage: storage) }
                     )
                     completion()
                 } catch {
@@ -81,7 +84,7 @@ class SearchViewModelImpl: SearchViewModel {
         else { completion(.failure(AppError.invalidURL)); return }
         Task {
             do {
-                let data = try await dataLoader.load(urlStr: urlStr)
+                let data = try await dataLoader.load(urlStr: urlStr, storage: storage)
                 completion(.success(data))
             } catch {
                 completion(.failure(error))

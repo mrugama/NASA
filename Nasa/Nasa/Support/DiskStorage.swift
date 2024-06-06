@@ -7,34 +7,37 @@
 
 import Foundation
 
-struct DiskStorage {
+struct DiskStorage<Value: Codable> {
     private var path: URL?
-    private var imageData: Data? {
+    private var data: Value? {
         get {
             guard
                 let path = path,
                 let data = try? Data(contentsOf: path)
             else { return nil }
-            return data
+            let decoder = JSONDecoder()
+            return try? decoder.decode(Value.self, from: data)
         }
         set {
             guard let path = path else { return }
-            try? newValue?.write(to: path)
+            let encoder = JSONEncoder()
+            guard let data = try? encoder.encode(newValue) else { return }
+            try? data.write(to: path)
         }
     }
     
-    mutating func save(_ imageID: String, value: Data) {
+    mutating func save(_ imageID: String, value: Value) {
         path = FileManager
             .directoryPath
             .appendingPathComponent(imageID)
-        imageData = value
+        data = value
     }
     
-    mutating func getImageData(_ imageID: String) -> Data? {
+    mutating func getImageData(_ imageID: String) -> Value? {
         path = FileManager
             .directoryPath
             .appendingPathComponent(imageID)
-        return imageData
+        return data
     }
     
     func clearCachedDirectory() {

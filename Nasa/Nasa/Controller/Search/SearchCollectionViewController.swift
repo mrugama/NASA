@@ -35,7 +35,7 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     deinit {
-        DiskStorage().clearCachedDirectory()
+        viewModel.storage.clearCachedDirectory()
     }
     
     // MARK: - Controller lifecyle
