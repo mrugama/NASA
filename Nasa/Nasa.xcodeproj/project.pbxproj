@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E5058F0E2C11FF2A00638BB7 /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5058F0D2C11FF2A00638BB7 /* DiskStorage.swift */; };
 		E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */; };
 		E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */; };
 		E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46312C0A0FBE00FD7F4E /* SearchCollectionViewController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E5058F0D2C11FF2A00638BB7 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStorage.swift; sourceTree = "<group>"; };
 		E59A462A2C0A0FBE00FD7F4E /* Nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nasa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				E59A46722C0DF24600FD7F4E /* Extensions.swift */,
+				E5058F0D2C11FF2A00638BB7 /* DiskStorage.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */,
 				E59A46702C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift in Sources */,
 				E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */,
+				E5058F0E2C11FF2A00638BB7 /* DiskStorage.swift in Sources */,
 				E59A46762C0F3E1800FD7F4E /* NasaViewModel.swift in Sources */,
 				E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */,
 				E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */,
