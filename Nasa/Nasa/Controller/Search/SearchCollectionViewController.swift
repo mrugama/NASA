@@ -15,6 +15,7 @@ class SearchCollectionViewController: UICollectionViewController {
     
     // MARK: - Value Types
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, NasaViewModel>
+    private typealias CollectionViewCellRegistration = UICollectionView.CellRegistration<SearchCollectionViewCell, NasaViewModel>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, NasaViewModel>
     
     // MARK: - Properties
@@ -53,12 +54,11 @@ class SearchCollectionViewController: UICollectionViewController {
     
     private func configureCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "NasaCell")
         collectionView.prefetchDataSource = self
     }
     
     private func configureDataSource() {
-        let cellRegistration: UICollectionView.CellRegistration<SearchCollectionViewCell, NasaViewModel> = .init(viewModel)
+        let cellRegistration: CollectionViewCellRegistration = .init(viewModel)
         
         nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, nasa in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: nasa)
