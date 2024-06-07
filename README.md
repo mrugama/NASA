@@ -20,6 +20,7 @@ git@github.com:mrugama/NASA.git
 ## Authentication
 > [!NOTE]
 > You do not need to authenticate to explore NASA data.
+
 If you plan to intensively use the APIs, for instance, to support a mobile application, it is recommended to sign up for a [NASA developer key](https://api.nasa.gov/#signUp).
 
 > [!IMPORTANT]
@@ -31,7 +32,10 @@ Search Functionality: Tap on the search bar and start typing. A view with option
 Detail View: Tapping on any grid cell will take you to a detailed page with more information.
 
 ## Example Screenshots
-Search View    Detail View
+
+|Search View | Detail View |
+|--|--|
+| ![Simulator Screenshot - iPhone 15 - 2024-06-07 at 12 17 52](https://github.com/mrugama/NASA/assets/28710418/88137c63-2626-45c2-96b3-5f0c6d8ad6f3)| ![Simulator Screenshot - iPhone 15 - 2024-06-07 at 12 17 36](https://github.com/mrugama/NASA/assets/28710418/c55cdd5d-a737-422d-bcac-ae0c53e4a9ac)|
 
 ## NASA App Technical Implementation
 The project is structured in a way to ensure reusability, maintainability, and scalability. Below is a chronological overview of the technical implementation:
