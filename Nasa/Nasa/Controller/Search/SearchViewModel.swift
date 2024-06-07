@@ -9,7 +9,6 @@ import UIKit
 
 protocol SearchViewModel {
     typealias Completion = () -> ()
-    typealias ImageCompletion = (Result<Data, Error>) -> ()
     
     var storage: DiskStorage<Data> { get }
     var nasaItems: [NasaViewModel] { get }
@@ -73,21 +72,6 @@ class SearchViewModelImpl: SearchViewModel {
                 } catch {
                     fatalError(error.localizedDescription)
                 }
-            }
-        }
-    }
-    
-    @MainActor
-    func getImageData(with nasa: Nasa, _ completion: @escaping ImageCompletion) {
-        guard
-            let urlStr = nasa.href
-        else { completion(.failure(AppError.invalidURL)); return }
-        Task {
-            do {
-                let data = try await dataLoader.load(urlStr: urlStr, storage: storage)
-                completion(.success(data))
-            } catch {
-                completion(.failure(error))
             }
         }
     }
