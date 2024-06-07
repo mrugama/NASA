@@ -58,7 +58,7 @@ class SearchCollectionViewController: UICollectionViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration: CollectionViewCellRegistration = .init(viewModel)
+        let cellRegistration: CollectionViewCellRegistration = .init()
         
         nasaDataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, nasa in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: nasa)

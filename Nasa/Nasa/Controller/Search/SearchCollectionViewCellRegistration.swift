@@ -9,7 +9,7 @@ import UIKit
 
 @MainActor
 extension UICollectionView.CellRegistration<SearchCollectionViewCell, NasaViewModel> {
-    init(_ viewModel: SearchViewModel) {
+    init() {
         self.init { searchCell, indexPath, nasa in
             nasa.getImage { image in
                 searchCell.configure(with: image)
