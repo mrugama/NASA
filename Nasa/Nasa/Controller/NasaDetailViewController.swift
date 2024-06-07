@@ -36,14 +36,14 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = .x10
         return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont.boldSystemFont(ofSize: .x24)
         label.numberOfLines = 0
         return label
     }()
@@ -51,7 +51,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: .x16)
         label.numberOfLines = 0
         return label
     }()
@@ -59,7 +59,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     private lazy var photographerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: .x16)
         label.textColor = .secondaryLabel
         return label
     }()
@@ -67,7 +67,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: .x16)
         label.textColor = .secondaryLabel
         return label
     }()
@@ -119,27 +119,27 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .x24),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .x24),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -.x24),
             imageViewHeightConstraint,
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: .x24),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .x24),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -.x24),
             
-            photographerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            photographerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            photographerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            photographerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: .x10),
+            photographerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .x24),
+            photographerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -.x24),
             
-            locationLabel.topAnchor.constraint(equalTo: photographerLabel.bottomAnchor, constant: 5),
-            locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            locationLabel.topAnchor.constraint(equalTo: photographerLabel.bottomAnchor, constant: .x4),
+            locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .x24),
+            locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -.x24),
             
-            descriptionLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            descriptionLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: .x10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .x24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -.x24),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -.x24)
         ])
         
         titleLabel.text = nasa.title
@@ -156,8 +156,8 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         let attachment = NSTextAttachment()
         attachment.image = image.withRenderingMode(.alwaysTemplate)
-        let imageOffsetY: CGFloat = -2.0
-        attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: 16, height: 16)
+        let imageOffsetY: CGFloat = -.x2
+        attachment.bounds = CGRect(x: 0, y: imageOffsetY, width: .x16, height: .x16)
         
         let attachmentString = NSAttributedString(attachment: attachment)
         let completeText = NSMutableAttributedString(string: " ")
@@ -171,7 +171,7 @@ class NasaDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-        let scale = max(0.5, 1 - yOffset / 200)
+        let scale = max(0.5, .x1 - yOffset / 200)
         
         imageView.transform = CGAffineTransform(scaleX: scale, y: scale)
         

@@ -14,7 +14,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 4
+        imageView.layer.cornerRadius = .x4
         return imageView
     }()
     
