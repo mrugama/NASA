@@ -50,6 +50,7 @@ The project is structured in a way to ensure reusability, maintainability, and s
     - Identifiable
     - Hashable
     - ViewModel
+        - getImage
 4. Endpoint Manager
     - URLComponent
     - Token
@@ -63,11 +64,10 @@ The project is structured in a way to ensure reusability, maintainability, and s
     - Compositional layout
     - Diffable datasource
     - Search Controller
-    - Filter option
+        - Filter option
     - ViewModel
-    - Load data from search
-    - Prefetch data
-    - Image loader
+        - Load data from search
+        - Prefetch data
 7. Detail ViewController
     - Content views
     - Scroll capability
