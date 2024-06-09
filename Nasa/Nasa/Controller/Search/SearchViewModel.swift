@@ -27,9 +27,9 @@ class SearchViewModelImpl: SearchViewModel {
     private var page: Int = 1
     private var searchedText: String = ""
     private var option: EndpointManager.SearchOption = .all
-    let storage: DiskStorage<Data>
-    var nasaItems = [NasaViewModel]()
-    var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
+    private(set) var storage: DiskStorage<Data>
+    private(set) var nasaItems = [NasaViewModel]()
+    private(set) var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
     
     init(dataLoader: DataLoader, storage: DiskStorage<Data>) {
         self.dataLoader = dataLoader

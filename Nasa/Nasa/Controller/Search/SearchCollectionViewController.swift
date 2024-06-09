@@ -65,11 +65,15 @@ class SearchCollectionViewController: UICollectionViewController {
         }
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
+    private func applySnapshot(animatingDifferences: Bool = true, reload: Bool = false) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.nasaItems)
-        nasaDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        if reload {
+            nasaDataSource.applySnapshotUsingReloadData(snapshot)
+        } else {
+            nasaDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
     
     private func configureSearchBar() {
@@ -87,7 +91,7 @@ extension SearchCollectionViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         viewModel.search(for: searchText, selectedOption: nil) { [weak self] in
             self?.configureDataSource()
-            self?.applySnapshot(animatingDifferences: false)
+            self?.applySnapshot(animatingDifferences: false, reload: true)
         }
     }
     
@@ -100,7 +104,7 @@ extension SearchCollectionViewController: UISearchBarDelegate {
         let selectedOption = scopeTitles[selectedScope]
         viewModel.search(for: searchText, selectedOption: selectedOption) { [weak self] in
             self?.configureDataSource()
-            self?.applySnapshot(animatingDifferences: false)
+            self?.applySnapshot(animatingDifferences: false, reload: true)
         }
     }
 }
