@@ -14,7 +14,7 @@ git clone https://github.com/mrugama/NASA.git
 
 SSH
 ```bash
-git@github.com:mrugama/NASA.git
+git clone git@github.com:mrugama/NASA.git
 ```
 
 ## Authentication
