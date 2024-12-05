@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Networking
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -56,10 +57,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 fileprivate extension SceneDelegate {
     func configureViewModel() -> SearchViewModel {
-        let dataLoader: DataLoader = DataLoaderImpl()
-        let storage: DiskStorage<Data> = .init()
-        let vm = SearchViewModelImpl(dataLoader: dataLoader, storage: storage)
-        return vm
+        SearchViewModelImpl(
+            dataLoader: NetworkingService.provideDataLoader()
+        )
     }
 }
 

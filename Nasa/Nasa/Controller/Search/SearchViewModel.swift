@@ -6,11 +6,11 @@
 //
 
 import UIKit
+import Networking
 
 protocol SearchViewModel {
     typealias Completion = () -> ()
     
-    var storage: DiskStorage<Data> { get }
     var nasaItems: [NasaViewModel] { get }
     var searchByOptions: [String] { get }
     
@@ -18,6 +18,7 @@ protocol SearchViewModel {
     func search(for text: String, selectedOption: String?, _ completion: @escaping Completion)
     @MainActor
     func loadPrefetchingItems(index: Int, _ completion: @escaping Completion)
+    func clearCache()
 }
 
 class SearchViewModelImpl: SearchViewModel {
@@ -27,13 +28,11 @@ class SearchViewModelImpl: SearchViewModel {
     private var page: Int = 1
     private var searchedText: String = ""
     private var option: EndpointManager.SearchOption = .all
-    private(set) var storage: DiskStorage<Data>
     private(set) var nasaItems = [NasaViewModel]()
     private(set) var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
     
-    init(dataLoader: DataLoader, storage: DiskStorage<Data>) {
+    init(dataLoader: DataLoader) {
         self.dataLoader = dataLoader
-        self.storage = storage
     }
     
     @MainActor 
@@ -47,8 +46,8 @@ class SearchViewModelImpl: SearchViewModel {
             do {
                 let search = EndpointManager.search(query: text, page: page, items: 50, option: option)
                 let searchRequest = try search()
-                let response: Response = try await dataLoader.load(request: searchRequest)
-                nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader, storage: storage) }
+                let response: Response = try await dataLoader.load(urlRequest: searchRequest)
+                nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
                 completion()
             } catch {
                 fatalError(error.localizedDescription)
@@ -64,9 +63,9 @@ class SearchViewModelImpl: SearchViewModel {
                 do {
                     let search = EndpointManager.search(query: searchedText, page: page, items: 50, option: option)
                     let searchRequest = try search()
-                    let response: Response = try await dataLoader.load(request: searchRequest)
+                    let response: Response = try await dataLoader.load(urlRequest: searchRequest)
                     nasaItems.append(
-                        contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader, storage: storage) }
+                        contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
                     )
                     completion()
                 } catch {
@@ -74,6 +73,10 @@ class SearchViewModelImpl: SearchViewModel {
                 }
             }
         }
+    }
+    
+    func clearCache() {
+        try? dataLoader.clearCached()
     }
     
     // MARK: - Helper methods

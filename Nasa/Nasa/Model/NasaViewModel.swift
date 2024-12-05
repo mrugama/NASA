@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Networking
 
 class NasaViewModel: Identifiable, Hashable {
     typealias ImageCompletion = (UIImage?) -> ()
@@ -16,10 +17,9 @@ class NasaViewModel: Identifiable, Hashable {
     let photographer: String
     let location: String
     private let imageURLStr: String?
-    private let dataLoader: DataLoader
-    private let storage: DiskStorage<Data>
+    private var dataLoader: DataLoader
     
-    init(_ nasa: Nasa, dataLoader: DataLoader, storage: DiskStorage<Data>) {
+    init(_ nasa: Nasa, dataLoader: DataLoader) {
         id = nasa.nasa_id ?? UUID().uuidString
         title = nasa.title ?? "-"
         description = (nasa.description ?? nasa.description_508 ?? "N/A") ?? "N/A"
@@ -27,7 +27,6 @@ class NasaViewModel: Identifiable, Hashable {
         location = (nasa.location ?? "-") ?? "-"
         imageURLStr = nasa.href
         self.dataLoader = dataLoader
-        self.storage = storage
     }
     
     func hash(into hasher: inout Hasher) {
@@ -43,7 +42,7 @@ class NasaViewModel: Identifiable, Hashable {
         Task {
             guard
                 let urlStr = imageURLStr,
-                let data = try? await dataLoader.load(urlStr: urlStr, storage: storage),
+                let data = try? await dataLoader.load(urlStr: urlStr),
                 let image = UIImage(data: data)
             else { return }
             completion(image)

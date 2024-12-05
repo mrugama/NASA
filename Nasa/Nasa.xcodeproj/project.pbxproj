@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E5058F0E2C11FF2A00638BB7 /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5058F0D2C11FF2A00638BB7 /* DiskStorage.swift */; };
+		E510092A2D00FE94006AAAAE /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = E51009292D00FE94006AAAAE /* Networking */; };
 		E59A462E2C0A0FBE00FD7F4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */; };
 		E59A46302C0A0FBE00FD7F4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */; };
 		E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46312C0A0FBE00FD7F4E /* SearchCollectionViewController.swift */; };
@@ -16,7 +17,6 @@
 		E59A464F2C0A0FC000FD7F4E /* NasaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A464E2C0A0FC000FD7F4E /* NasaUITests.swift */; };
 		E59A46512C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46502C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift */; };
 		E59A46602C0A2D6F00FD7F4E /* Nasa.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A465F2C0A2D6F00FD7F4E /* Nasa.swift */; };
-		E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46642C0A703300FD7F4E /* DataLoader.swift */; };
 		E59A46682C0A713A00FD7F4E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */; };
 		E59A466A2C0A964900FD7F4E /* EndpointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A46692C0A964900FD7F4E /* EndpointManager.swift */; };
 		E59A466C2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */; };
@@ -45,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		E5058F0D2C11FF2A00638BB7 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStorage.swift; sourceTree = "<group>"; };
+		E51009272D00FE30006AAAAE /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		E59A462A2C0A0FBE00FD7F4E /* Nasa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nasa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59A462D2C0A0FBE00FD7F4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E59A462F2C0A0FBE00FD7F4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		E59A464E2C0A0FC000FD7F4E /* NasaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaUITests.swift; sourceTree = "<group>"; };
 		E59A46502C0A0FC000FD7F4E /* NasaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E59A465F2C0A2D6F00FD7F4E /* Nasa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nasa.swift; sourceTree = "<group>"; };
-		E59A46642C0A703300FD7F4E /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		E59A46672C0A713A00FD7F4E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		E59A46692C0A964900FD7F4E /* EndpointManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointManager.swift; sourceTree = "<group>"; };
 		E59A466B2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -72,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E510092A2D00FE94006AAAAE /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,12 +93,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E51009282D00FE94006AAAAE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E59A46212C0A0FBE00FD7F4E = {
 			isa = PBXGroup;
 			children = (
+				E51009272D00FE30006AAAAE /* Modules */,
 				E59A462C2C0A0FBE00FD7F4E /* Nasa */,
 				E59A46432C0A0FC000FD7F4E /* NasaTests */,
 				E59A464D2C0A0FC000FD7F4E /* NasaUITests */,
+				E51009282D00FE94006AAAAE /* Frameworks */,
 				E59A462B2C0A0FBE00FD7F4E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -173,7 +183,6 @@
 		E59A46662C0A70F600FD7F4E /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E59A46642C0A703300FD7F4E /* DataLoader.swift */,
 				E59A46692C0A964900FD7F4E /* EndpointManager.swift */,
 			);
 			path = Network;
@@ -328,7 +337,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E59A46652C0A703300FD7F4E /* DataLoader.swift in Sources */,
 				E59A466C2C0B5C9400FD7F4E /* SearchCollectionViewCell.swift in Sources */,
 				E59A46322C0A0FBE00FD7F4E /* SearchCollectionViewController.swift in Sources */,
 				E59A46702C0DEC7D00FD7F4E /* SearchCollectionViewCellRegistration.swift in Sources */,
@@ -666,6 +674,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E51009292D00FE94006AAAAE /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E59A46222C0A0FBE00FD7F4E /* Project object */;
 }
