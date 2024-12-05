@@ -8,6 +8,7 @@ let package = Package(
     platforms: [.iOS(.v17)],
     products: [
         .library(name: "Networking", targets: ["Networking"]),
+        .library(name: "Endpoint", targets: ["Endpoint"]),
     ],
     targets: [
         .target(
@@ -17,6 +18,10 @@ let package = Package(
         .testTarget(
             name: "NetworkingTests",
             dependencies: ["Networking"]
+        ),
+        .target(
+            name: "Endpoint",
+            path: "Sources/Foundation/Endpoint"
         ),
     ]
 )

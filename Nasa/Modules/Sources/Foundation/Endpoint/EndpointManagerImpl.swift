@@ -1,39 +1,24 @@
-//
-//  EndpointManager.swift
-//  Nasa
-//
-//  Created by Marlon Rugama on 5/31/24.
-//
-
 import Foundation
-import Networking
 
-enum EndpointManager {
-    enum SearchOption: String, CaseIterable {
-        case all, title, photographer, location
-        
-        func callAsFunction(_ queryItems: inout [URLQueryItem], query: String) {
-            switch self {
-            case .all:
-                return
-            default:
-                queryItems.append(URLQueryItem(name: self.rawValue, value: query))
-            }
-        }
-        
-        var capitalized: String {
-            self.rawValue.capitalized
+extension SearchEndpoint.SearchOption {
+    func callAsFunction(_ queryItems: inout [URLQueryItem], query: String) {
+        switch self {
+        case .all:
+            return
+        default:
+            queryItems.append(URLQueryItem(name: self.rawValue, value: query))
         }
     }
-    
-    case search(query: String, page: Int, items: Int, option: SearchOption),
-         asset(nasaId: String),
-         metadata(nasaId: String),
-         captions(nasaId: String),
-         album(name: String)
-    
+}
+
+struct EndpointManagerImpl: EndpointManager {
+    private var endpoint: SearchEndpoint
     private var token: String {
         "PASTE-YOUR-API-TOKEN_HERE"
+    }
+    
+    init(_ endpoint: SearchEndpoint) {
+        self.endpoint = endpoint
     }
     
     private func makeURL() -> URL? {
@@ -42,7 +27,7 @@ enum EndpointManager {
         components.host = "images-api.nasa.gov"
         var queryItems = [URLQueryItem]()
         
-        switch self {
+        switch endpoint {
         case .search(let query, let page, let items, let option):
             components.path = "/search"
             switch option {
@@ -69,7 +54,7 @@ enum EndpointManager {
     }
     
     func callAsFunction() throws -> URLRequest {
-        guard let url = makeURL() else { throw AppError.invalidURL }
+        guard let url = makeURL() else { throw EndpointError.invalidURL }
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request

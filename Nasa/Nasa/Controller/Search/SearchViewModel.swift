@@ -7,6 +7,7 @@
 
 import UIKit
 import Networking
+import Endpoint
 
 protocol SearchViewModel {
     typealias Completion = () -> ()
@@ -22,12 +23,12 @@ protocol SearchViewModel {
 }
 
 class SearchViewModelImpl: SearchViewModel {
-    typealias Option = EndpointManager.SearchOption
+    typealias Option = SearchEndpoint.SearchOption
     
     private let dataLoader: DataLoader
     private var page: Int = 1
     private var searchedText: String = ""
-    private var option: EndpointManager.SearchOption = .all
+    private var option: Option = .all
     private(set) var nasaItems = [NasaViewModel]()
     private(set) var searchByOptions: [String] = Option.allCases.map { $0.capitalized }
     
@@ -44,8 +45,10 @@ class SearchViewModelImpl: SearchViewModel {
         }
         Task {
             do {
-                let search = EndpointManager.search(query: text, page: page, items: 50, option: option)
-                let searchRequest = try search()
+                let searchOption = SearchEndpoint.search(query: text, page: page, items: 50, option: option)
+                let endpointService = EndpointService()
+                let endpointManager = endpointService.provideEndpoint(searchOption)
+                let searchRequest = try endpointManager()
                 let response: Response = try await dataLoader.load(urlRequest: searchRequest)
                 nasaItems = response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
                 completion()
@@ -61,8 +64,10 @@ class SearchViewModelImpl: SearchViewModel {
             page += 1
             Task {
                 do {
-                    let search = EndpointManager.search(query: searchedText, page: page, items: 50, option: option)
-                    let searchRequest = try search()
+                    let searchOption = SearchEndpoint.search(query: searchedText, page: page, items: 50, option: option)
+                    let endpointService = EndpointService()
+                    let endpointManager = endpointService.provideEndpoint(searchOption)
+                    let searchRequest = try endpointManager()
                     let response: Response = try await dataLoader.load(urlRequest: searchRequest)
                     nasaItems.append(
                         contentsOf: response.collection.items.map{ NasaViewModel($0, dataLoader: dataLoader) }
